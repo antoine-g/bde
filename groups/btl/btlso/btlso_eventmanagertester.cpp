@@ -49,9 +49,10 @@ BSLS_IDENT_RCSID(btlso_eventmanagertester_cpp,"$Id$ $CSID$")
 # include <sys/types.h>
 # include <sys/socket.h>                             // ::socketpair
 
-#if defined(BSLS_PLATFORM_OS_LINUX)  ||                                      \
-    defined(BSLS_PLATFORM_OS_CYGWIN) ||                                      \
-    defined(BSLS_PLATFORM_OS_SOLARIS)
+#if defined(BSLS_PLATFORM_OS_LINUX)   ||                                     \
+    defined(BSLS_PLATFORM_OS_CYGWIN)  ||                                     \
+    defined(BSLS_PLATFORM_OS_SOLARIS) ||                                     \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
 #   include <sys/resource.h>
 # endif
 
@@ -1367,7 +1368,7 @@ EventManagerTester::testDispatch(EventManager *mX, int flags)
           {L_, "+0w131072; Dn,1; +0w8192; Dn300,1; Dn150,0; -0w; T0"        },
           {L_, "+0w131072; Dn,1; +0w8192; Dn120,1; Dn150,0; -0w; T0"        },
 #endif
-#if defined(BSLS_PLATFORM_OS_SOLARIS)
+#if defined(BSLS_PLATFORM_OS_SOLARIS) || defined(BSLS_PLATFORM_OS_FREEBSD)
           {L_, "+0w73728; Dn,1; +0w26000; Dn150,0; -0w; T0"                 },
 #endif
         };
@@ -1556,7 +1557,9 @@ EventManagerTester::testDispatchPerformance(EventManager *mX,
                                             const char   *pollingMechName,
                                             int           flags)
 {
-#if defined(BSLS_PLATFORM_OS_HPUX) || defined(BSLS_PLATFORM_OS_SOLARIS)
+#if defined(BSLS_PLATFORM_OS_HPUX)    ||                                     \
+    defined(BSLS_PLATFORM_OS_SOLARIS) ||                                     \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
     enum { k_NUM_MEASUREMENTS = 1 };
 #else
     enum { k_NUM_MEASUREMENTS = 10 };
