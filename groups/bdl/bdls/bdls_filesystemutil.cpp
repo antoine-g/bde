@@ -68,7 +68,8 @@ enum {
 #if defined(BSLS_PLATFORM_OS_UNIX)
 
 #if defined(BSLS_PLATFORM_OS_CYGWIN) || \
-    (defined(BSLS_PLATFORM_OS_DARWIN) && defined(_DARWIN_FEATURE_64_BIT_INODE))
+    (defined(BSLS_PLATFORM_OS_DARWIN) && defined(_DARWIN_FEATURE_64_BIT_INODE)) || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
 namespace {
     typedef struct stat   StatResult;
 }  // close unnamed namespace
@@ -88,7 +89,9 @@ int performStat(const char *fileName, StatResult *statResult)
 {
 
 #if defined(BSLS_PLATFORM_OS_CYGWIN) || \
-    (defined(BSLS_PLATFORM_OS_DARWIN) && defined(_DARWIN_FEATURE_64_BIT_INODE))
+    (defined(BSLS_PLATFORM_OS_DARWIN) && defined(_DARWIN_FEATURE_64_BIT_INODE)) || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
+
     return stat  (fileName, statResult);
 #else
     return stat64(fileName, statResult);
@@ -104,7 +107,8 @@ int performStat(const char *fileName, StatResult *statResult, bool followLinks)
     // followed.
 {
 #if defined(BSLS_PLATFORM_OS_CYGWIN) || \
-    (defined(BSLS_PLATFORM_OS_DARWIN) && defined(_DARWIN_FEATURE_64_BIT_INODE))
+    (defined(BSLS_PLATFORM_OS_DARWIN) && defined(_DARWIN_FEATURE_64_BIT_INODE)) || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
     return followLinks ?  stat(fileName, statResult)
                        : lstat(fileName, statResult);
 #else
