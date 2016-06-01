@@ -786,6 +786,15 @@ struct bsls_Platform_Assert;
 #   define BSLS_PLATFORM_IS_BIG_ENDIAN 1
 #endif
 
+// FreeBSD
+#elif defined(BSLS_PLATFORM_OS_FREEBSD)
+#include <machine/endian.h>
+#if BYTE_ORDER == LITTLE_ENDIAN
+#   define BSLS_PLATFORM_IS_LITTLE_ENDIAN 1
+#elif BYTE_ORDER == BIG_ENDIAN
+#   define BSLS_PLATFORM_IS_BIG_ENDIAN 1
+#endif
+
 // HPUX
 #elif defined(BSLS_PLATFORM_OS_HPUX)
 #include <machine/param.h>
