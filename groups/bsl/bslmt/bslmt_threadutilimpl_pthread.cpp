@@ -490,7 +490,32 @@ int bslmt::ThreadUtilImpl<bslmt::Platform::PosixThreads>::sleepUntil(
     status = clock_sleep(clock, TIME_ABSOLUTE, clockTime, &resultTime);
 
     return KERN_ABORTED == status ? 0 : status;
+#elif defined(BSLS_PLATFORM_OS_FREEBSD)
+   // FreeBSD does not implement clock_nanosleep as required by POSIX.
+   // This was discussed previously in
+   //: o http://lists.freebsd.org/pipermail/freebsd-standards/2010-April/001948.html
+   //: o http://stackoverflow.com/questions/11338899/are-there-any-well-behaved-posix-interval-timers
+   //..
+   // The current minimal implementation is using nanosleep and retricts clockType values
 
+    timespec clockTime;
+
+    // This implementation is very sensitive to the 'clockType'.  For safety,
+    // we will assert the value is one of the two currently expected values.
+    BSLS_ASSERT(bsls::SystemClockType::e_REALTIME ==  clockType ||
+                bsls::SystemClockType::e_MONOTONIC == clockType);
+
+    SaturatedTimeConversionImpUtil::toTimeSpec(&clockTime, absoluteTime);
+
+    int result;
+    do {
+        result = nanosleep(&clockTime,
+                           &clockTime);
+    } while (EINTR == result && retryOnSignalInterrupt);
+
+    // A signal interrupt is not considered an error.
+
+    return result == EINTR ? 0 : result;
 #else
     timespec clockTime;
     SaturatedTimeConversionImpUtil::toTimeSpec(&clockTime, absoluteTime);
