@@ -41,9 +41,10 @@
 #	undef  linux
 #	undef  unicos
 #	undef  ultrix
-#       undef  win64 
-#       undef  darwin 
-#       undef  interix 
+#       undef  win64
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
 
 #	define dos 1
 #	define OP_SYSTEM dos
@@ -60,8 +61,9 @@
 #	undef  unicos
 #	undef  ultrix
 #       undef   win64
-#       undef  darwin 
-#       undef  interix 
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
 
 #	define vms 2
 #	define OP_SYSTEM vms
@@ -78,8 +80,9 @@
 #	undef  unicos
 #	undef  ultrix
 #       undef  win64
-#       undef  darwin 
-#       undef  interix 
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
 
 #	define wnt 3
 #	define OP_SYSTEM wnt
@@ -96,8 +99,9 @@
 #	undef  unicos
 #	undef  ultrix
 #       undef  win64
-#       undef  darwin 
-#       undef  interix 
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
 
 #	define linux 8
 #	define OP_SYSTEM linux
@@ -115,8 +119,9 @@
 #	undef  unicos
 #	undef  ultrix
 #       undef  win64
-#       undef  darwin 
-#       undef  interix 
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
 
 #	define osf 4
 #	define OP_SYSTEM osf
@@ -133,8 +138,9 @@
 #	undef  unicos
 #	undef  ultrix
 #       undef  win64
-#       undef  darwin 
-#       undef  interix 
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
 
 #	define hp_ux 5
 #	define OP_SYSTEM hp_ux
@@ -151,8 +157,9 @@
 #	undef  unicos
 #	undef  ultrix
 #       undef  win64
-#       undef  darwin 
-#       undef  interix 
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
 
 #	define unicos 6
 #	define OP_SYSTEM unicos
@@ -169,8 +176,9 @@
 #	undef  unicos
 #	undef  ultrix
 #       undef  win64
-#       undef  darwin 
-#       undef  interix 
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
 
 #	define ultrix 7
 #	define OP_SYSTEM ultrix
@@ -186,8 +194,9 @@
 #       undef  unicos
 #       undef  ultrix
 #       undef  win64
-#       undef  darwin 
-#       undef  interix 
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
 
 #       define win64 9
 #       define OP_SYSTEM win64
@@ -203,8 +212,9 @@
 #       undef  unicos
 #       undef  ultrix
 #       undef  win64
-#       undef  darwin 
-#       undef  interix 
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
 
 #       define darwin 10
 #       define OP_SYSTEM darwin
@@ -219,11 +229,30 @@
 #       undef  unicos
 #       undef  ultrix
 #       undef  win64
-#       undef  darwin 
-#       undef  interix 
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
 
 #       define interix 11
 #       define OP_SYSTEM interix
+
+#elif defined(__FreeBSD__) || defined(__bsdi__)
+#       undef  dos
+#       undef  vms
+#       undef  wnt
+#       undef  osf
+#       undef  hp_ux
+#       undef  linux
+#       undef  unicos
+#       undef  ultrix
+#       undef  win64
+#       undef  darwin
+#       undef  interix
+#       undef  freebsd
+
+#       define freebsd 12
+#       define OP_SYSTEM freebsd
+
 #else
 
 #	error Operating system must be specified.
@@ -239,4 +268,3 @@
 )
 
 #endif  /* OP_SYSTEM_H */
-
