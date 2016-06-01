@@ -38,6 +38,10 @@ BSLS_IDENT_RCSID(bdls_processutil_cpp,"$Id$ $CSID$")
 #include <sys/pstat.h>
 #elif defined(BSLS_PLATFORM_OS_DARWIN)
 #include <libproc.h>
+#elif defined(BSLS_PLATFORM_OS_FREEBSD)
+#include <sys/types.h>
+#include <sys/sysctl.h>
+#include <sys/syslimits.h>
 #endif
 
 namespace BloombergLP {
@@ -113,6 +117,22 @@ int ProcessUtil::getProcessName(bsl::string *result)
     if (proc_pidpath (getpid(), pathbuf, sizeof(pathbuf)) <= 0) {
         return -1;
     }
+    result->assign(pathbuf);
+# elif defined BSLS_PLATFORM_OS_FREEBSD
+    // Using kinfo_getproc(pid) has been considered but introduces a
+    // dependency on libutil(3).
+    // liproc(3) has also be considered but introduces a new dependency.
+    // FreeBSD does not offer procfs by default contrary to other BSD systems
+    const u_int NAMELEN(4);
+    int mib[NAMELEN];
+    mib[0] = CTL_KERN;
+    mib[1] = KERN_PROC;
+    mib[2] = KERN_PROC_PATHNAME;
+    mib[3] = -1; // Current process
+
+    char pathbuf[PATH_MAX];
+    size_t cb = sizeof(pathbuf);
+    sysctl(mib, NAMELEN, pathbuf, &cb, NULL, 0);
     result->assign(pathbuf);
 # else
 #  if defined BSLS_PLATFORM_OS_AIX
