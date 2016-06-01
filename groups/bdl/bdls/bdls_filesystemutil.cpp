@@ -150,8 +150,10 @@ bool shortIsDotOrDots(const char *path)
 
 #if defined(BSLS_PLATFORM_OS_UNIX)
 
-#if defined(BSLS_PLATFORM_OS_CYGWIN) || \
-    (defined(BSLS_PLATFORM_OS_DARWIN) && defined(_DARWIN_FEATURE_64_BIT_INODE))
+#if defined(BSLS_PLATFORM_OS_CYGWIN) ||                                       \
+    (defined(BSLS_PLATFORM_OS_DARWIN) &&                                      \
+    defined(_DARWIN_FEATURE_64_BIT_INODE)) ||                                 \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
 namespace {
     typedef struct stat   StatResult;
 }  // close unnamed namespace
@@ -170,8 +172,11 @@ int performStat(const char *fileName, StatResult *statResult)
     // 'fileName', returning the results in the specified 'statResult'.
 {
 
-#if defined(BSLS_PLATFORM_OS_CYGWIN) || \
-    (defined(BSLS_PLATFORM_OS_DARWIN) && defined(_DARWIN_FEATURE_64_BIT_INODE))
+#if defined(BSLS_PLATFORM_OS_CYGWIN) ||                                       \
+    (defined(BSLS_PLATFORM_OS_DARWIN) &&                                      \
+    defined(_DARWIN_FEATURE_64_BIT_INODE)) ||                                 \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
+
     return stat  (fileName, statResult);
 #else
     return stat64(fileName, statResult);
@@ -186,8 +191,10 @@ int performStat(const char *fileName, StatResult *statResult, bool followLinks)
     // the specified 'followLinks' indicates whether symlinks are to be
     // followed.
 {
-#if defined(BSLS_PLATFORM_OS_CYGWIN) || \
-    (defined(BSLS_PLATFORM_OS_DARWIN) && defined(_DARWIN_FEATURE_64_BIT_INODE))
+#if defined(BSLS_PLATFORM_OS_CYGWIN) ||                                       \
+    (defined(BSLS_PLATFORM_OS_DARWIN) &&                                      \
+    defined(_DARWIN_FEATURE_64_BIT_INODE)) ||                                 \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
     return followLinks ?  stat(fileName, statResult)
                        : lstat(fileName, statResult);
 #else
@@ -1331,16 +1338,18 @@ FilesystemUtil::FileDescriptor FilesystemUtil::open(
     }
 
     if (useExtendedOpen) {
-#if defined(BSLS_PLATFORM_OS_FREEBSD) || defined(BSLS_PLATFORM_OS_DARWIN) \
- || defined(BSLS_PLATFORM_OS_CYGWIN)
+#if defined(BSLS_PLATFORM_OS_DARWIN) ||                                      \
+    defined(BSLS_PLATFORM_OS_FREEBSD) ||                                     \
+    defined(BSLS_PLATFORM_OS_CYGWIN)
         return ::open(path, oflag, extendedFlags);                    // RETURN
 #else
         return open64(path, oflag, extendedFlags);                    // RETURN
 #endif
     }
     else {
-#if defined(BSLS_PLATFORM_OS_FREEBSD) || defined(BSLS_PLATFORM_OS_DARWIN) \
- || defined(BSLS_PLATFORM_OS_CYGWIN)
+#if defined(BSLS_PLATFORM_OS_DARWIN) ||                                      \
+    defined(BSLS_PLATFORM_OS_FREEBSD) ||                                     \
+    defined(BSLS_PLATFORM_OS_CYGWIN)
         return ::open(path, oflag);                                   // RETURN
 #else
         return open64(path, oflag);                                   // RETURN
@@ -1365,8 +1374,9 @@ FilesystemUtil::Offset FilesystemUtil::seek(FileDescriptor descriptor,
                                             int            whence)
 {
     switch (whence) {
-#if defined(BSLS_PLATFORM_OS_FREEBSD) || defined(BSLS_PLATFORM_OS_DARWIN) \
- || defined(BSLS_PLATFORM_OS_CYGWIN)
+#if defined(BSLS_PLATFORM_OS_DARWIN) ||                                      \
+    defined(BSLS_PLATFORM_OS_FREEBSD) ||                                     \
+    defined(BSLS_PLATFORM_OS_CYGWIN)
       case e_SEEK_FROM_BEGINNING: {
         return lseek(descriptor, offset, SEEK_SET);                   // RETURN
       }
@@ -1507,8 +1517,9 @@ int FilesystemUtil::map(FileDescriptor   descriptor,
         protect |= PROT_EXEC;
     }
 
-#if defined(BSLS_PLATFORM_OS_FREEBSD) || defined(BSLS_PLATFORM_OS_DARWIN) \
- || defined(BSLS_PLATFORM_OS_CYGWIN)
+#if defined(BSLS_PLATFORM_OS_DARWIN) ||                                      \
+    defined(BSLS_PLATFORM_OS_FREEBSD) ||                                     \
+    defined(BSLS_PLATFORM_OS_CYGWIN)
     *address = mmap(0, size, protect, MAP_SHARED, descriptor, offset);
 #else
     *address = mmap64(0, size, protect, MAP_SHARED, descriptor, offset);
@@ -1815,8 +1826,9 @@ FilesystemUtil::getAvailableSpace(const char *path)
 {
     BSLS_ASSERT(path);
 
-#if defined(BSLS_PLATFORM_OS_FREEBSD) || defined(BSLS_PLATFORM_OS_DARWIN) \
- || defined(BSLS_PLATFORM_OS_CYGWIN)
+#if defined(BSLS_PLATFORM_OS_DARWIN) ||                                      \
+    defined(BSLS_PLATFORM_OS_FREEBSD) ||                                     \
+    defined(BSLS_PLATFORM_OS_CYGWIN)
     struct statvfs buffer;
     int rc = statvfs(path, &buffer);
 #else
@@ -1837,8 +1849,9 @@ FilesystemUtil::getAvailableSpace(const char *path)
 FilesystemUtil::Offset
 FilesystemUtil::getAvailableSpace(FileDescriptor descriptor)
 {
-#if defined(BSLS_PLATFORM_OS_FREEBSD) || defined(BSLS_PLATFORM_OS_DARWIN) \
- || defined(BSLS_PLATFORM_OS_CYGWIN)
+#if defined(BSLS_PLATFORM_OS_DARWIN) ||                                      \
+    defined(BSLS_PLATFORM_OS_FREEBSD) ||                                     \
+    defined(BSLS_PLATFORM_OS_CYGWIN)
     struct statvfs buffer;
     int rc = fstatvfs(descriptor, &buffer);
 #else
@@ -1869,8 +1882,9 @@ FilesystemUtil::Offset FilesystemUtil::getFileSize(const char *path)
 
 FilesystemUtil::Offset FilesystemUtil::getFileSizeLimit()
 {
-#if defined(BSLS_PLATFORM_OS_FREEBSD) || defined(BSLS_PLATFORM_OS_DARWIN) \
- || defined(BSLS_PLATFORM_OS_CYGWIN)
+#if defined(BSLS_PLATFORM_OS_DARWIN) ||                                      \
+    defined(BSLS_PLATFORM_OS_FREEBSD) ||                                     \
+    defined(BSLS_PLATFORM_OS_CYGWIN)
     struct rlimit rl, rlMax, rlInf;
     int rc = getrlimit(RLIMIT_FSIZE, &rl);
 #else
@@ -2049,6 +2063,7 @@ int FilesystemUtil::growFile(FileDescriptor         descriptor,
 #endif
 #if defined(BSLS_PLATFORM_OS_LINUX) ||                                        \
     defined(BSLS_PLATFORM_OS_SOLARIS) ||                                      \
+    defined(BSLS_PLATFORM_OS_FREEBSD) ||                                      \
     defined(BSLS_PLATFORM_OS_AIX)
     if (   reserveFlag
         && 0 == posix_fallocate(descriptor, 0, static_cast<off_t>(size))) {
