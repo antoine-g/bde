@@ -48,7 +48,7 @@
 
 #endif
 
-#ifndef BSLS_PLATFORM_OS_WINDOWS
+#if !defined(BSLS_PLATFORM_OS_WINDOWS) && !defined(BSLS_PLATFORM_OS_FREEBSD)
 #include <alloca.h>
 #endif
 
@@ -1868,7 +1868,9 @@ int main(int argc, char *argv[])
             const bool willFail = isPost_5_10 &&
                                            (Attr::e_SCHED_FIFO == policy ||
                                             Attr::e_SCHED_RR   == policy);
-#elif defined(BSLS_PLATFORM_OS_WINDOWS) || defined(BSLS_PLATFORM_OS_DARWIN)
+#elif defined(BSLS_PLATFORM_OS_WINDOWS) ||                                  \
+      defined(BSLS_PLATFORM_OS_DARWIN)  ||                                  \
+      defined(BSLS_PLATFORM_OS_FREEBSD)
             const bool willFail = false;
 #else
 # error unrecognized platform
