@@ -38,6 +38,10 @@ BSLS_IDENT_RCSID(bdls_processutil_cpp,"$Id$ $CSID$")
 #include <sys/pstat.h>
 #elif defined(BSLS_PLATFORM_OS_DARWIN)
 #include <libproc.h>
+#elif defined(BSLS_PLATFORM_OS_FREEBSD)
+#include <sys/types.h>
+#include <libutil.h>
+#include <sys/user.h>
 #endif
 
 namespace BloombergLP {
@@ -114,6 +118,20 @@ int ProcessUtil::getProcessName(bsl::string *result)
         return -1;
     }
     result->assign(pathbuf);
+# elif defined BSLS_PLATFORM_OS_FREEBSD
+    // Could use LIBPROCSTAT(3) instead
+    struct kinfo_proc *proc = kinfo_getproc(getpid());
+    if (proc == NULL) {
+        return -1;
+    }
+    result->assign(proc->ki_comm);
+
+    bsl::string::size_type pos = result->find_first_of('\0');
+    if (bsl::string::npos != pos) {
+        result->resize(pos);
+    }
+
+    free(proc);
 # else
 #  if defined BSLS_PLATFORM_OS_AIX
     enum { NUM_ELEMENTS = 14 + 16 };  // "/proc/<pid>/psinfo"
