@@ -58,7 +58,7 @@ BSLS_IDENT_RCSID(balst_stacktraceresolverimpl_elf_cpp,"$Id$ $CSID$")
 # include <execinfo.h>
 # include <link.h>
 
-#elif defined(BSLS_PLATFORM_OS_SOLARIS)
+#elif defined(BSLS_PLATFORM_OS_SOLARIS) || defined(BSLS_PLATFORM_OS_FREEBSD)
 
 # include <link.h>
 
@@ -3550,7 +3550,7 @@ int linkmapCallback(struct dl_phdr_info *info,
 }  // extern "C"
 
 #endif
-#if defined(BSLS_PLATFORM_OS_SOLARIS)
+#if defined(BSLS_PLATFORM_OS_SOLARIS) || defined(BSLS_PLATFORM_OS_FREEBSD)
 
 // modern Solaris applications are NEVER statically linked, so we always
 // have a link_map.
@@ -3649,7 +3649,7 @@ int u::StackTraceResolver::resolve(
     dl_iterate_phdr(&linkmapCallback,
                     &resolver);
 
-#elif defined(BSLS_PLATFORM_OS_SOLARIS)
+#elif defined(BSLS_PLATFORM_OS_SOLARIS) || defined(BSLS_PLATFORM_OS_FREEBSD)
 
     u::StackTraceResolver resolver(stackTrace,
                                        demanglingPreferredFlag);
