@@ -154,16 +154,13 @@ typedef balst::StackTracePrintUtil_Test      PrintUtilTest;
 
 #elif defined(BALST_OBJECTFILEFORMAT_RESOLVER_DLADDR)
     enum { e_FORMAT_ELF = 0, e_FORMAT_WINDOWS = 0, e_FORMAT_DLADDR = 1 };
-    enum { e_PLAT_SUN=0, e_PLAT_LINUX=0, e_PLAT_HP=0, e_PLAT_AIX=0,
-                                                                e_PLAT_WIN=0 };
+    enum { e_PLAT_SUN=0, e_PLAT_LINUX=0, e_PLAT_HP=0, e_PLAT_AIX=0, e_PLAT_WIN=0, e_PLAT_BSD=0 };
 #elif defined(BALST_OBJECTFILEFORMAT_RESOLVER_WINDOWS)
     enum { e_FORMAT_ELF = 0, e_FORMAT_WINDOWS = 1, e_FORMAT_DLADDR = 0 };
-    enum { e_PLAT_SUN=0, e_PLAT_LINUX=0, e_PLAT_HP=0, e_PLAT_AIX=0,
-                                                                e_PLAT_WIN=1 };
+    enum { e_PLAT_SUN=0, e_PLAT_LINUX=0, e_PLAT_HP=0, e_PLAT_AIX=0, e_PLAT_WIN=1, e_PLAT_BSD=0 };
 #elif defined(BALST_OBJECTFILEFORMAT_RESOLVER_XCOFF)
     enum { e_FORMAT_ELF = 0, e_FORMAT_WINDOWS = 0, e_FORMAT_DLADDR = 0 };
-    enum { e_PLAT_SUN=0, e_PLAT_LINUX=0, e_PLAT_HP=0, e_PLAT_AIX=1,
-                                                                e_PLAT_WIN=0 };
+    enum { e_PLAT_SUN=0, e_PLAT_LINUX=0, e_PLAT_HP=0, e_PLAT_AIX=1, e_PLAT_WIN=0, e_PLAT_BSD=0 };
 #else
 # error unknown object file format
 #endif
