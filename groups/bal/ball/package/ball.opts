@@ -1,0 +1,4 @@
+*                       _       OPTS_FILE       = ball.opts
+
+#-lutil needed for bdls::ProcessUtil
+++ unix-FreeBSD-*-*-*   _       BDEBUILD_LDFLAGS    = -lutil

@@ -2,3 +2,6 @@
 *                  _    OPTS_FILE    = baltzo.opts
 
 windows            _       CXXLINK          = advapi32.lib
+
+#-lutil needed for bdls::ProcessUtil
+++ unix-FreeBSD-*-*-*   _       BDEBUILD_LDFLAGS    = -lutil
