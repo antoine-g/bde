@@ -42,7 +42,9 @@ BSLS_IDENT_RCSID(balst_stackaddressutil_cpp,"$Id$ $CSID$")
 # include <uwx_self.h>
 # include <unwind.h>
 
-#elif defined(BSLS_PLATFORM_OS_LINUX) || defined(BSLS_PLATFORM_OS_DARWIN)
+#elif defined(BSLS_PLATFORM_OS_LINUX)  || \
+      defined(BSLS_PLATFORM_OS_DARWIN) || \
+      defined(BSLS_PLATFORM_OS_FREEBSD)
 
 #include <execinfo.h>
 
@@ -235,7 +237,9 @@ int StackAddressUtil::getStackAddresses(void **buffer,
 
 // HPUX
 #endif
-#if defined(BSLS_PLATFORM_OS_LINUX) || defined(BSLS_PLATFORM_OS_DARWIN)
+#if defined(BSLS_PLATFORM_OS_LINUX)  || \
+    defined(BSLS_PLATFORM_OS_DARWIN) || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
 
 namespace balst {
 

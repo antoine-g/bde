@@ -225,6 +225,7 @@ int main(int argc, char *argv[])
 
 #if defined(BSLS_PLATFORM_OS_SOLARIS) || \
     defined(BSLS_PLATFORM_OS_LINUX)   || \
+    defined(BSLS_PLATFORM_OS_FREEBSD) || \
     defined(BSLS_PLATFORM_OS_HPUX)
 
         ASSERT(1 == (bslmf::IsSame<Obj::Policy, Obj::Elf>()));
@@ -318,6 +319,7 @@ int main(int argc, char *argv[])
 
 #if defined(BSLS_PLATFORM_OS_SOLARIS) || \
     defined(BSLS_PLATFORM_OS_LINUX)   || \
+    defined(BSLS_PLATFORM_OS_FREEBSD) || \
     defined(BSLS_PLATFORM_OS_HPUX)
 
         ASSERT(1 == BALST_OBJECTFILEFORMAT_RESOLVER_ELF);
