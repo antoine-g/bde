@@ -27,7 +27,9 @@
 
 # include <ucontext.h>
 
-#elif defined(BSLS_PLATFORM_OS_LINUX) || defined(BSLS_PLATFORM_OS_DARWIN)
+#elif defined(BSLS_PLATFORM_OS_LINUX)  || \
+      defined(BSLS_PLATFORM_OS_DARWIN) || \
+      defined(BSLS_PLATFORM_OS_FREEBSD)
 
 #include <execinfo.h>
 
@@ -125,7 +127,9 @@ int StackAddressUtil::getStackAddresses(void **buffer,
 // AIX
 #endif
 
-#if defined(BSLS_PLATFORM_OS_LINUX) || defined(BSLS_PLATFORM_OS_DARWIN)
+#if defined(BSLS_PLATFORM_OS_LINUX)  || \
+    defined(BSLS_PLATFORM_OS_DARWIN) || \
+    defined(BSLS_PLATFORM_OS_FREEBSD)
 
 namespace bsls {
 
