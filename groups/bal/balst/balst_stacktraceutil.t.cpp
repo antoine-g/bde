@@ -164,11 +164,13 @@ typedef balst::StackTraceUtil           Util;
            FORMAT_DLADDR = 0 };
 
 # if   defined(BSLS_PLATFORM_OS_SOLARIS)
-    enum { PLAT_SUN=1, PLAT_LINUX=0, PLAT_HP=0, PLAT_AIX=0, PLAT_WIN=0 };
+   enum { PLAT_SUN=1, PLAT_LINUX=0, PLAT_HP=0, PLAT_AIX=0, PLAT_WIN=0, PLAT_BSD=0 };
 # elif defined(BSLS_PLATFORM_OS_LINUX)
-    enum { PLAT_SUN=0, PLAT_LINUX=1, PLAT_HP=0, PLAT_AIX=0, PLAT_WIN=0 };
+   enum { PLAT_SUN=0, PLAT_LINUX=1, PLAT_HP=0, PLAT_AIX=0, PLAT_WIN=0, PLAT_BSD=0 };
 # elif defined(BSLS_PLATFORM_OS_HPUX)
-    enum { PLAT_SUN=0, PLAT_LINUX=0, PLAT_HP=1, PLAT_AIX=0, PLAT_WIN=0 };
+   enum { PLAT_SUN=0, PLAT_LINUX=0, PLAT_HP=1, PLAT_AIX=0, PLAT_WIN=0, PLAT_BSD=0 };
+# elif defined(BSLS_PLATFORM_OS_FREEBSD)
+   enum { PLAT_SUN=0, PLAT_LINUX=0, PLAT_HP=0, PLAT_AIX=0, PLAT_WIN=0, PLAT_BSD=1 };
 # else
 #   error unknown platform
 # endif
@@ -177,17 +179,17 @@ typedef balst::StackTraceUtil           Util;
     enum { FORMAT_ELF = 0, FORMAT_WINDOWS = 0, FORMAT_XCOFF = 0,
            FORMAT_DLADDR = 1 };
     enum { PLAT_SUN=0, PLAT_LINUX=0, PLAT_HP=0, PLAT_AIX=0, PLAT_WIN=0,
-           PLAT_DARWIN = 1 };
+           PLAT_DARWIN = 1, PLAT_BSD=0 };
 #elif defined(BALST_OBJECTFILEFORMAT_RESOLVER_WINDOWS)
     enum { FORMAT_ELF = 0, FORMAT_WINDOWS = 1, FORMAT_XCOFF = 0,
            FORMAT_DLADDR = 0 };
     enum { PLAT_SUN=0, PLAT_LINUX=0, PLAT_HP=0, PLAT_AIX=0, PLAT_WIN=1,
-           PLAT_DARWIN = 0 };
+           PLAT_DARWIN = 0, PLAT_BSD=0 };
 #elif defined(BALST_OBJECTFILEFORMAT_RESOLVER_XCOFF)
     enum { FORMAT_ELF = 0, FORMAT_WINDOWS = 0, FORMAT_XCOFF = 1,
            FORMAT_DLADDR = 0 };
     enum { PLAT_SUN=0, PLAT_LINUX=0, PLAT_HP=0, PLAT_AIX=1, PLAT_WIN=0,
-           PLAT_DARWIN = 0 };
+           PLAT_DARWIN = 0, PLAT_BSD=0 };
 #else
 # error unknown object file format
 #endif

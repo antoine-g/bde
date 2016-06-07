@@ -1,0 +1,7 @@
+*                       _       OPTS_FILE       = balst.opts
+
+#-lutil needed for bdls::ProcessUtil
+++ unix-FreeBSD-*-*-*   _       BDEBUILD_LDFLAGS    = -lutil
+
+#-lexecinfo needed for balst::StackAddressUtil::getStackAddresses
+++ unix-FreeBSD-*-*-*  _        BDEBUILD_LDFLAGS    = -lexecinfo
