@@ -219,8 +219,9 @@ class MmapAllocator : public bslma::Allocator {
 
         return result;
 
-#elif defined(BSLS_PLATFORM_OS_LINUX)  \
-   || defined(BSLS_PLATFORM_OS_DARWIN) \
+#elif defined(BSLS_PLATFORM_OS_LINUX)   \
+   || defined(BSLS_PLATFORM_OS_DARWIN)  \
+   || defined(BSLS_PLATFORM_OS_FREEBSD) \
    || defined(BSLS_PLATFORM_OS_CYGWIN)
         return d_allocator_p->allocate(size);
 #else
@@ -230,8 +231,9 @@ class MmapAllocator : public bslma::Allocator {
 
     virtual void deallocate(void *address)
     {
-#if defined(BSLS_PLATFORM_OS_LINUX)  \
- || defined(BSLS_PLATFORM_OS_DARWIN) \
+#if defined(BSLS_PLATFORM_OS_LINUX)   \
+ || defined(BSLS_PLATFORM_OS_DARWIN)  \
+ || defined(BSLS_PLATFORM_OS_FREEBSD) \
  || defined(BSLS_PLATFORM_OS_CYGWIN)
         d_allocator_p->deallocate(address);
 #else
@@ -553,7 +555,8 @@ int main(int argc, char *argv[])
 
 #if defined(BSLS_PLATFORM_OS_UNIX) \
     && !defined(BSLS_PLATFORM_OS_CYGWIN) \
-    && !defined(BSLS_PLATFORM_OS_DARWIN)
+    && !defined(BSLS_PLATFORM_OS_DARWIN) \
+    && !defined(BSLS_PLATFORM_OS_FREEBSD) // TODO: check perfom permission
         // 1 is not a valid pid on Windows or Cygwin.  On Darwin it is, but
         // registerPid only works for processes running under the same user as
         // this test is run as, meaning this would only work if the test was
