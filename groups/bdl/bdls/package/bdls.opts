@@ -7,3 +7,6 @@
 
 #-lsocket needed for bdls::FileSystemUtil::isRegularFile test
 unix-SunOS              _       MT_LDFLAGS     = -Bdynamic -lpthread -lsocket -Bstatic
+
+#-lutil needed for bdls::ProcessUtil
+++ unix-FreeBSD-*-*-*   _       BDEBUILD_LDFLAGS    = -lutil
