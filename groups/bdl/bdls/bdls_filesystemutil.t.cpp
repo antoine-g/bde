@@ -2034,8 +2034,10 @@ int main(int argc, char *argv[])
             int address;
 
             rc = Obj::sync((char *)&address, MYPAGESIZE, true);
+#ifndef BSLS_PLATFORM_OS_FREEBSD
             ASSERT(0 != rc);
-#ifdef BSLS_PLATFORM_OS_UNIX
+#endif
+#if defined(BSLS_PLATFORM_OS_UNIX) && !defined(BSLS_PLATFORM_OS_FREEBSD)
             // Note that this is a white-box test that we return 'errno' on
             // error, which is not required by the method contract.
             ASSERT(EINVAL == rc);
