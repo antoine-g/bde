@@ -582,7 +582,7 @@ int balb::PerformanceMonitor::Collector<bsls::Platform::OsFreeBsd>
 
     bsl::ifstream ifs(filename.str().c_str());
     if (!ifs) {
-        BSLS_LOG_DEBUG("Failed to open '%s'", filename.str());
+        BSLS_LOG_DEBUG("Failed to open '%s'", filename.str().c_str());
         return -1;
     }
 
