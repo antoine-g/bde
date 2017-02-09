@@ -52,6 +52,9 @@ unix-SunOS-*-*-*        _       BDE_ENDLDFLAGS  = $(BDE_DYNAMIC) -lrt $(BDE_STAT
 !! unix-*       _       BSLMT_LDFLAGS     = $(BDE_DYNAMIC) -lpthread -lrt $(BDE_STATIC)
 !! unix-Darwin  _       BSLMT_LDFLAGS     = -lpthread
 
+# -lexecinfo needed for backtrace in bsls_stackstraceutil.cpp
+unix-FreeBSD-*-*-* _ BDE_LDFLAGS = -lexecinfo
+
 -- *			_	BDE_ENDLDFLAGS = $(BSL_EXTRALIBS) $(BSLMT_LDFLAGS)
 
 # Force threaded /MT over non-threaded /ML
