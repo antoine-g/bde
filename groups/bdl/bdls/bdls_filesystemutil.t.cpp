@@ -1550,7 +1550,7 @@ int main(int argc, char *argv[])
             ASSERT(0 == rc);
             ASSERT(Obj::exists(fullPath));
 
-# ifdef BSLS_PLATFORM_OS_CYGWIN
+# if defined(BSLS_PLATFORM_OS_CYGWIN) || defined(BSLS_PLATFORM_OS_FREEBSD)
             struct stat info;
             ASSERT(0 == ::stat(  fullPath.c_str(), &info));
 # else
@@ -1662,7 +1662,7 @@ int main(int argc, char *argv[])
 
             ASSERT(0 == Obj::close(fd));
 
-# ifdef BSLS_PLATFORM_OS_CYGWIN
+# if defined(BSLS_PLATFORM_OS_CYGWIN) || defined(BSLS_PLATFORM_OS_FREEBSD)
             struct stat info;
             ASSERT(0 == ::stat(  testFile.c_str(), &info));
 # else
